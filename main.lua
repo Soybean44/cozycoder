@@ -1,34 +1,34 @@
-urutora = require("urutora.urutora")
-local u = urutora:new()
-
+local yui = require("yui")
 function love.load()
-	local clickMe = u.text()
-	u:add(clickMe)
+	local w, h = 300, 80
+	local x = math.floor((love.graphics.getWidth() - w) / 2)
+	local y = math.floor((love.graphics.getHeight() - h) / 2)
+
+	ui = yui.Ui:new({
+		x = x,
+		y = y,
+
+		yui.Rows({
+			yui.Label({
+				w = w,
+				h = h / 2,
+				text = "Hello, World!",
+			}),
+			yui.Button({
+				text = "Close",
+
+				onHit = function()
+					love.event.quit()
+				end,
+			}),
+		}),
+	})
 end
 
 function love.update(dt)
-	u:update(dt)
+	ui:update(dt)
 end
 
 function love.draw()
-	u:draw()
-end
-
-function love.mousepressed(x, y, button)
-	u:pressed(x, y)
-end
-function love.mousemoved(x, y, dx, dy)
-	u:moved(x, y, dx, dy)
-end
-function love.mousereleased(x, y, button)
-	u:released(x, y)
-end
-function love.textinput(text)
-	u:textinput(text)
-end
-function love.keypressed(k, scancode, isrepeat)
-	u:keypressed(k, scancode, isrepeat)
-end
-function love.wheelmoved(x, y)
-	u:wheelmoved(x, y)
+	ui:draw()
 end
