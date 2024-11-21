@@ -1,34 +1,30 @@
-local yui = require("yui")
+local utf8 = require("utf8")
 function love.load()
-	local w, h = 300, 80
-	local x = math.floor((love.graphics.getWidth() - w) / 2)
-	local y = math.floor((love.graphics.getHeight() - h) / 2)
-
-	ui = yui.Ui:new({
-		x = x,
-		y = y,
-
-		yui.Rows({
-			yui.Label({
-				w = w,
-				h = h / 2,
-				text = "Hello, World!",
-			}),
-			yui.Button({
-				text = "Close",
-
-				onHit = function()
-					love.event.quit()
-				end,
-			}),
-		}),
-	})
+	text = "Hello world!"
 end
 
-function love.update(dt)
-	ui:update(dt)
+function love.update(dt) end
+
+function love.textinput(t)
+	text = text .. t
+end
+
+function love.keypressed(key)
+	if key == "backspace" then
+		-- get the byte offset to the last UTF-8 character in the string.
+		local byteoffset = utf8.offset(text, -1)
+
+		if byteoffset then
+			-- remove the last UTF-8 character.
+			-- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
+			text = string.sub(text, 1, byteoffset - 1)
+		end
+	end
+	if key == "return" then
+		text = text .. "\n"
+	end
 end
 
 function love.draw()
-	ui:draw()
+	love.graphics.printf(text, 0, 0, love.graphics.getWidth())
 end
