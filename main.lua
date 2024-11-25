@@ -7,7 +7,6 @@ love.keyboard.setKeyRepeat(true)
 function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	love.window.setMode(width, height, { fullscreen = false, resizable = true })
-	print(width, height)
 	ui:init(width, height)
 end
 function love.keypressed(key, scancode, isRepeat)
@@ -32,7 +31,6 @@ function love.draw()
 	ui:draw()
 end
 function love.resize(w, h)
-	print(w, h)
 	if w and h then
 		ui:resize(w, h)
 	end
