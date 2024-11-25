@@ -1,4 +1,4 @@
 {
    InputField = "https://github.com/ReFreezed/InputField",
-   yui = "https://gitea.it/1414codeforge/yui"
+   yui = "https://gitea.it/1414codeforge/yui",
 }

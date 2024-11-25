@@ -3,19 +3,31 @@ require("code")
 local yui = require("lib.yui")
 local InputField = require("lib.InputField")
 
-local field = InputField("", "multiwrap", 400, 400)
-local fieldX = 80
-local fieldY = 50
-local fieldW = 400
-local fieldH = 400
+local field = InputField("", "multiwrap")
+local fieldX
+local fieldY
+local fieldW
+local fieldH
 
-field:setDimensions(fieldW, fieldH)
+function ui:init(width, height)
+	ui.width = width
+	ui.height = height
+	fieldX = 50
+	fieldY = 50
+	fieldW = width / 2 - 100
+	fieldH = height - 100
+	local x = fieldW + 100
+	local y = fieldY + fieldH - 50
 
-function ui:init()
+	myfont = love.graphics.newFont("assets/pixgamer-font/font.ttf", 40)
+	field:setFont(myfont)
+	field:setDimensions(fieldW, fieldH)
 	gui = yui.Ui:new({
-		x = 500,
-		y = fieldY + fieldH - 50,
+		x = x,
+		y = y,
 		yui.Rows({
+			w = width,
+			h = height,
 			yui.Button({
 				w = 100,
 				h = 50,
@@ -32,7 +44,7 @@ end
 
 function ui:draw()
 	gui:draw()
-	love.graphics.setColor(0.2, 0.2, 0.2)
+	love.graphics.setColor(0.2, 0.2, 0.2, 0.8)
 	love.graphics.rectangle("fill", fieldX, fieldY, fieldW, fieldH)
 
 	love.graphics.setColor(0, 0, 1)
@@ -42,11 +54,15 @@ function ui:draw()
 
 	love.graphics.setColor(1, 1, 1)
 	for _, text, x, y in field:eachVisibleLine() do
-		love.graphics.print(text, love.math.newTransform(fieldX + x, fieldY + y))
+		love.graphics.print(text, myfont, love.math.newTransform(fieldX + x, fieldY + y))
 	end
 
 	local x, y, curr_h = field:getCursorLayout()
 	love.graphics.rectangle("fill", fieldX + x, fieldY + y, 1, curr_h)
+end
+
+function ui:resize(w, h)
+	ui:init(w, h)
 end
 
 function ui:update(dt)

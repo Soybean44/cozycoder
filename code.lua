@@ -1,5 +1,12 @@
 local program, err
 
+-- Define the keywords and their corresponding colors
+local keywords = {
+	["function"] = { 1, 0, 0 }, -- Red
+	["end"] = { 0, 1, 0 }, -- Green
+	["print"] = { 0, 0, 1 }, -- Blue
+}
+
 function load_code(code, environment)
 	if setfenv and loadstring then
 		program, err = loadstring(code)
