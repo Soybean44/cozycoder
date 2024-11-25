@@ -54,7 +54,7 @@ function ui:draw()
 
 	love.graphics.setColor(1, 1, 1)
 	for _, text, x, y in field:eachVisibleLine() do
-		love.graphics.print(hightlight(text), myfont, love.math.newTransform(fieldX + x, fieldY + y))
+		love.graphics.print(text, myfont, love.math.newTransform(fieldX + x, fieldY + y))
 	end
 
 	local x, y, curr_h = field:getCursorLayout()
